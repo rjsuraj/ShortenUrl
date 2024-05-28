@@ -7,16 +7,15 @@ async function handleGenerateShortUrl(req,res){
 
     if(!body.url) return res.json({ error : "url is required."});
 
-    await Url.create({
+    const entry =  await Url.create({
         shortId,
         redirectUrl : body.url,
-        visitHistory : []
+        visitHistory : [],
+        createdBY : req.user._id
     })
 
-    const allUrls = await Url.find({});
-
     return res.render('home', {
-        urls : allUrls
+        shortId : entry.shortId
     })
 }
 

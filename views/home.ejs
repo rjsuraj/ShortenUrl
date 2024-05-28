@@ -36,32 +36,44 @@
 
 <body>
     <h1>URL Shortner</h1>
-    <form method="post" action="/url">
-        <label for="url">URL : </label>
-        <input type="text" name="url" id="url" placeholder="Enter orginal url..">
-        <button type="submit">Generate</button>
-    </form>
 
-    <% if (locals.urls) { %>      
-        <table>
-            <thead>
-                <th>S.NO</th>
-                <th>Short Url</th>
-                <th>Orginal Url</th>
-                <th>Total Clicks</th>
-            </thead>
-            <tbody>
-                <% urls.forEach((url,index)=> { %>
-                    <tr>
-                        <td><%- index + 1 %></td>
-                        <td>http://localhost:8001/url/<%- url.shortId %></td>
-                        <td><%- url.redirectUrl %></td>
-                        <td><%- url.visitHistory.length %></td>
-                    </tr>
-                    <% }) %>
-            </tbody>
-        </table>
-    <% } %>
+    <% if (locals.shortId) { %>
+        <h3>Generated Url : http://localhost:8001/url/<%- shortId %></h3>
+        <% } %>
+
+            <form method="post" action="/url">
+                <label for="url">URL : </label>
+                <input type="text" name="url" id="url" placeholder="Enter orginal url..">
+                <button type="submit">Generate</button>
+            </form>
+
+            <% if (locals.urls) { %>
+                <table>
+                    <thead>
+                        <th>S.NO</th>
+                        <th>Short Url</th>
+                        <th>Orginal Url</th>
+                        <th>Total Clicks</th>
+                    </thead>
+                    <tbody>
+                        <% urls.forEach((url,index)=> { %>
+                            <tr>
+                                <td><%- index + 1 %></td>
+                                <td>
+                                    <a 
+                                        href="http://localhost:8001/url/<%= url.shortId %>"               
+                                        target="_blank"
+                                    >
+                                        http://localhost:8001/url/<%-url.shortId %>
+                                    </a>
+                                </td>
+                                <td><%- url.redirectUrl %></td>
+                                <td><%- url.visitHistory.length %></td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+                <% } %>
 </body>
 
 </html>
