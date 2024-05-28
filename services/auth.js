@@ -1,11 +1,20 @@
-const loginUserMapping = new Map();
+const jwt = require("jsonwebtoken");
+const SECRET = "abcd"
 
-function setUser(id, user){
-    loginUserMapping.set(id, user);
+function setUser(user){
+
+   const token = jwt.sign({
+       _id : user._id,
+       email : user.email
+   },SECRET)
+   return token;
 }
 
-function getUser(id){
-   return loginUserMapping.get(id);
+function getUser(token){
+    
+    if(!token) return null;
+    const user = jwt.verify(token,SECRET);
+    return user;
 }
 
 module.exports = {

@@ -1,5 +1,4 @@
 const User = require("../models/user");
-const crypto = require("crypto");
 const { setUser } = require("../services/auth")
 
 async function handleUserSignUp(req,res){
@@ -19,9 +18,8 @@ async function handleUserSignIn(req,res){
 
     if(!user) return res.redirect('/signin');
 
-    const sessionId = crypto.randomUUID();
-    setUser(sessionId,user);
-    res.cookie("uid",sessionId);
+    const token = setUser(user);
+    res.cookie("uid",token);
     return res.redirect('/');
 }
 
